@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('ciudades', function (Blueprint $table) {
             $table->id(); // id INT AUTO_INCREMENT PRIMARY KEY
-            $table->string('nombre', 100); // nombre VARCHAR(100)
+            $table->string('nombre', 200); // nombre VARCHAR(100)
             $table->decimal('latitud', 10, 6); // latitud DECIMAL(10, 6)
             $table->decimal('longitud', 10, 6); // longitud DECIMAL(10, 6)
             $table->timestamps(); // created_at y updated_at
+            $table->unique('nombre'); // UNIQUE(nombre)
         });
     }
 
