@@ -18,6 +18,7 @@ class CiudadModelControler extends Controller
                 $api_key = "a5777721902795125a7dc0474c5036a8";
                 $language = "es";
                 $units = "metric";
+                $cnt = 10;
                 $ciudad = new CiudadModel();
                 
                 $data = Http::get("https://api.openweathermap.org/data/2.5/weather?q=$municipio&appid=$api_key&lang=$language&units=$units")->json();
