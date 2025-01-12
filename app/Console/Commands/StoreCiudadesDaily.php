@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log; // Importa la clase Log
 use App\Http\Controllers\CiudadModelControler;
 
 class StoreCiudadesDaily extends Command
@@ -17,8 +18,20 @@ class StoreCiudadesDaily extends Command
 
     public function handle()
     {
-        $controller = new CiudadModelControler();
-        $controller->store();
-        $this->info('Datos de las ciudades guardados exitosamente.');
+        try {
+            // Llamada al controlador
+            $controller = new CiudadModelControler();
+            $controller->store();
+
+            // Mensaje de éxito en consola
+            $this->info('Datos de las ciudades guardados exitosamente.');
+
+            // Registrar el evento en el archivo de log
+            Log::info('Comando ciudades:store ejecutado correctamente. Datos guardados exitosamente.');
+        } catch (\Exception $e) {
+            // Manejo de errores y registro en logs
+            Log::error('Error al ejecutar el comando ciudades:store: ' . $e->getMessage());
+            $this->error('Error al guardar los datos: ' . $e->getMessage());
+        }
     }
 }
