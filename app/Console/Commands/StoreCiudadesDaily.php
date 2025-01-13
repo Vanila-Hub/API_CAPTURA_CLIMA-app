@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log; // Importa la clase Log
 use App\Http\Controllers\CiudadModelControler;
-use Illuminate\Container\Attributes\Log;
 
 class StoreCiudadesDaily extends Command
 {
