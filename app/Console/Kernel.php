@@ -20,16 +20,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // Tarea existente
-        $schedule->command('inspire')->hourly();
-    
         // Tarea personalizada
         $schedule->command('ciudades:store')->everyMinute();
     
-        // Otra tarea personalizada
-        $schedule->call(function () {
-            Log::info('Tarea personalizada ejecutada.');
-        })->dailyAt('12:00');
     }
     
     
