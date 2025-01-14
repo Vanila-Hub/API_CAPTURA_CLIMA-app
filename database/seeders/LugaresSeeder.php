@@ -16,10 +16,10 @@ class LugaresSeeder extends Seeder
     {
         //
         $lugares = [
-            "BILBAO",
-            "VITORIA-GASTEIZ",
-            "DONOSTIA",
-            "PAMPLONA"
+            "Bilbao",
+            "Vitoria-Gasteiz",
+            "San Sebastian",
+            "Pamplona"
         ];
 
         foreach ($lugares as $lugar) {
