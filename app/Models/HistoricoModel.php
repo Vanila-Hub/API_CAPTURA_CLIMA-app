@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class HistoricoModel extends Model
 {
-
+    use HasFactory;
     protected $table = 'historico';   // El nombre de la tabla no será "articles" sino "articulos"
     protected $primaryKey = 'id'; // La clave primaria no será "id" sino "id_art"
 

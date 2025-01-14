@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pronosticos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('ciudad_id');
-            $table->foreign('ciudad_id')->references('id')->on('ciudades')->onDelete('cascade');
+            $table->foreign('ciudad_id')->references('id')->on('ciudades')->onDelete('cascade')->onUpdate('cascade');;
             $table->timestamp('fecha_hora');  // Changed to 'fecha_hora'
             $table->integer('fecha_unix');
             $table->decimal('temperatura', 5, 2);

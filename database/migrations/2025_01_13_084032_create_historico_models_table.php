@@ -22,7 +22,7 @@ return new class extends Migration
             $table->decimal('temperatura', 5, 2);
             $table->timestamps();
 
-            $table->foreign('ciudad_id')->references('id')->on('ciudades')->onDelete('cascade');
+            $table->foreign('ciudad_id')->references('id')->on('ciudades')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

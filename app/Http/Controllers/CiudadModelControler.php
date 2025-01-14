@@ -61,6 +61,7 @@ class CiudadModelControler extends Controller
     
             // Fetch the list of places
             $lugares = Lugar::all();
+            
             CiudadModel::query()->delete();  // Deletes all cities
     
             foreach ($lugares as $lugar) {
