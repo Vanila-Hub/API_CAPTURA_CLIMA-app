@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CiudadModel;
 use App\Models\Lugar;
 use App\Models\PronosticoModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -89,5 +90,29 @@ class CiudadModelControler extends Controller
             // Store the weather forecast in the database
             obtenerPronosticos($ciudad->id, $data);
         }
+    }
+
+    public function index()
+    {
+        $ciudades = CiudadModel::all();
+        return response()->json($ciudades);
+    }
+    public function show($ciudad_nombre, $fecha_inicio, $fecha_fin)
+    {
+    // Verificar si la ciudad existe
+    $ciudad = CiudadModel::where('nombre', $ciudad_nombre)->first();
+    if (!$ciudad) {
+        return response()->json(['message' => 'Ciudad no encontrada con el nombre: ' . $ciudad_nombre], 404);
+    }
+
+
+        $pronosticos = PronosticoModel::join('ciudades as C', 'pronosticos.ciudad_id', '=', 'C.id')
+        ->where('C.id', $ciudad->id)
+        ->whereBetween('pronosticos.fecha_hora', [$fecha_inicio, $fecha_fin])
+        ->orderBy('pronosticos.fecha_hora', 'ASC')
+        ->get(['C.nombre', 'pronosticos.*']);
+    
+      
+        return response()->json($pronosticos);
     }
 }
