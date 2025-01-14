@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CiudadModel;
 use App\Models\Lugar;
-use App\Models\PronosticosModel;
+use App\Models\PronosticoModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -36,7 +36,7 @@ class CiudadModelControler extends Controller
                 $pronosticoPorHoras = $data['list'];
                 
                 foreach ($pronosticoPorHoras as $element) {
-                    PronosticosModel::create([
+                    PronosticoModel::create([
                         'ciudad_id' => $ciudad_id,
                         'fecha_hora' => $element['dt_txt'],  // Corresponding to 'fecha_hora'
                         'fecha_unix' => $element['dt'],      // Corresponding to 'fecha_unix'

@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PronosticosModel extends Model
+class PronosticoModel extends Model
 {
     //
+    use HasFactory;
     protected $table = 'pronosticos';   // El nombre de la tabla no será "articles" sino "articulos"
     protected $primaryKey = 'id'; // La clave primaria no será "id" sino "id_art"
     protected $fillable = array(

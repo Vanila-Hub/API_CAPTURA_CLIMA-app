@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CiudadModel;
 use App\Models\Lugar;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,8 +21,9 @@ class LugaresSeeder extends Seeder
             "DONOSTIA",
             "PAMPLONA"
         ];
+
         foreach ($lugares as $lugar) {
-            Lugar::insert([
+            CiudadModel::insert([
                 "nombre" => $lugar
             ]);
         }
