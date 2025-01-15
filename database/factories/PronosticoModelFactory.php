@@ -42,38 +42,38 @@ class PronosticoModelFactory extends Factory
         // Descripciones posibles basadas en rangos de temperatura
         if ($temperatura <= 5) {
             $descripciones = [
-                'cielo claro' => '01d',
-                'nubes dispersas' => '03d',
-                'nubes' => '04d',
-                'lluvia ligera' => '10d',
+                'cielo claro' => 'http://openweathermap.org/img/wn/01d@4x.png',
+                'nubes dispersas' => 'http://openweathermap.org/img/wn/03d@4x.png',
+                'nubes' => 'http://openweathermap.org/img/wn/04d@4x.png',
+                'lluvia ligera' => 'http://openweathermap.org/img/wn/10d@4x.png',
             ];
         } elseif ($temperatura <= 15) {
             $descripciones = [
-                'cielo claro' => '01d',
-                'algo de nubes' => '02d',
-                'nubes dispersas' => '03d',
-                'muy nuboso' => '04d',
-                'lluvia ligera' => '10d',
+                'cielo claro' => 'http://openweathermap.org/img/wn/01d@4x.png',
+                'algo de nubes' => 'http://openweathermap.org/img/wn/02d@4x.png',
+                'nubes dispersas' => 'http://openweathermap.org/img/wn/03d@4x.png',
+                'muy nuboso' => 'http://openweathermap.org/img/wn/04d@4x.png',
+                'lluvia ligera' => 'http://openweathermap.org/img/wn/10d@4x.png',
             ];
         } elseif ($temperatura <= 25) {
             $descripciones = [
-                'cielo claro' => '01d',
-                'algo de nubes' => '02d',
-                'nubes dispersas' => '03d',
-                'muy nuboso' => '04d',
-                'lluvia ligera' => '10d',
-                'nubes' => '04d',
+                'cielo claro' => 'http://openweathermap.org/img/wn/01d@4x.png',
+                'algo de nubes' => 'http://openweathermap.org/img/wn/02d@4x.png',
+                'nubes dispersas' => 'http://openweathermap.org/img/wn/03d@4x.png',
+                'muy nuboso' => 'http://openweathermap.org/img/wn/04d@4x.png',
+                'lluvia ligera' => 'http://openweathermap.org/img/wn/10d@4x.png',
+                'nubes' => 'http://openweathermap.org/img/wn/04d@4x.png',
             ];
         } else {
             $descripciones = [
-                'cielo claro' => '01d',
-                'algo de nubes' => '02d',
-                'muy nuboso' => '04d',
-                'lluvia ligera' => '10d',
-                'tormenta' => '11d',
+                'cielo claro' => 'http://openweathermap.org/img/wn/01d@4x.png',
+                'algo de nubes' => 'http://openweathermap.org/img/wn/02d@4x.png',
+                'muy nuboso' => 'http://openweathermap.org/img/wn/04d@4x.png',
+                'lluvia ligera' => 'http://openweathermap.org/img/wn/10d@4x.png',
+                'tormenta' => 'http://openweathermap.org/img/wn/11d@4x.png',
             ];
         }
-
+        
         // Escoge una descripción aleatoria y su icono asociado
         $descripcion = $this->faker->randomElement(array_keys($descripciones));
         $icono = $descripciones[$descripcion];
