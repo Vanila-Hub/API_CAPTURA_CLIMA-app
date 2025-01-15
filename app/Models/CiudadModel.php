@@ -15,6 +15,6 @@ class CiudadModel extends Model
      */
     public function lugares()
     {
-        return $this->hasMany(PronosticosModel::class, 'ciudad_id'); // 'ciudad_id' es la clave foránea en la tabla 'lugares'
+        return $this->hasMany(PronosticoModel::class, 'ciudad_id'); // 'ciudad_id' es la clave foránea en la tabla 'lugares'
     }
 }
