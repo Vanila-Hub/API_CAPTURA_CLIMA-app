@@ -68,6 +68,8 @@ class CiudadModelControler extends Controller
         $ciudades = CiudadModel::all();
         return response()->json($ciudades);
     }
+
+    
     public function show($ciudad_nombre, $fecha_inicio, $fecha_fin)
     {
     // Verificar si la ciudad existe
