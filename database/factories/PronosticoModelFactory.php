@@ -28,9 +28,9 @@ class PronosticoModelFactory extends Factory
 
         self::$timeIncrement += 15; // Incremento de 15 minutos
 
-        // Ajuste de temperatura según mes con variación realista entre -0.5°C y 0.5°C
+        // Ajuste de temperatura según mes
         $month = $date->month;
-        $temperatura = $this->getTemperatureForMonth($month) + $this->faker->randomFloat(1, -0.5, 0.5);  // Variación entre -0.5°C y 0.5°C
+        $temperatura = $this->getTemperatureForMonth($month) + $this->faker->randomFloat(1, -2, 2);
 
         // Descripciones posibles basadas en rangos de temperatura
         $descripciones = $this->getDescriptionsBasedOnTemperature($temperatura);
@@ -66,7 +66,7 @@ class PronosticoModelFactory extends Factory
             3 => 9,  // Marzo
             4 => 12, // Abril
             5 => 15, // Mayo
-            6 => 19, // Junio
+            6 => 18, // Junio
         ];
 
         return $temperatureRanges[$month] ?? 15;  // Valor por defecto si no se encuentra el mes
