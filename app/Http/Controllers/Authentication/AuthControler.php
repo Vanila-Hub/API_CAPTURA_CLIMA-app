@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Authentication;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use App\Models\User;
 
@@ -12,49 +13,54 @@ class AuthControler extends Controller
 {
     public function login(Request $request) 
     {
+        // Validación de los datos
         $request->validate([
             'name' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        $credentials = ['name' => $request->user, 'password' => $request->password];
+        // Obtener el usuario por su nombre
+        $user = User::where('name', $request->name)->first();
 
-        if (!Auth::attempt($credentials)) {
+        // Verificar que el usuario exista y que la contraseña coincida
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
-                'message' => 'Unauthorized'
+                'message' => 'Unauthorized password not macthin my Hash'
             ], 401);
         }
 
-        $user = $request->user();
+        // Crear el token
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
         $token->expires_at = Carbon::now()->addWeeks(1);
-
         $token->save();
 
         return response()->json([
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse(
-                $tokenResult->token->expires_at
-            )->toDateTimeString()
+            'expires_at' => Carbon::parse($tokenResult->token->expires_at)->toDateTimeString()
         ]);
     }
 
+
     public function signUp(Request $request)
     {
+        // Update validation rules to include email
         $request->validate([
             'name' => 'required|string|unique:users',
+            'email' => 'required|string|email|unique:users',
             'password' => 'required|string'
         ]);
 
+        // Include email in the user creation
         User::create([
             'name' => $request->name,
-            'password' => bcrypt($request->password)
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
         ]);
 
         return response()->json([
-            'message' => 'Successfully created user!'
+            'message' => 'Successfully created user! Please login to get the token.'
         ], 201);
     }
 
