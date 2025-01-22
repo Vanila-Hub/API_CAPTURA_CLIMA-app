@@ -7,7 +7,7 @@ use App\Models\Lugar;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class LugaresSeeder extends Seeder
+class CiudadesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,7 +15,7 @@ class LugaresSeeder extends Seeder
     public function run(): void
     {
         //
-        $lugares = [
+        $ciudades = [
             [
             "nombre" => "Bilbao",
             "latitud" => "43.262700",
@@ -38,8 +38,8 @@ class LugaresSeeder extends Seeder
             ]
         ];
 
-        foreach ($lugares as $lugar) {
-            CiudadModel::insert($lugar);
+        foreach ($ciudades as $ciudad) {
+            CiudadModel::insert($ciudad);
         }
     }
 }

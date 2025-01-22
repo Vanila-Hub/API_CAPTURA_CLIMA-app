@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\CiudadModel;
 use App\Models\Lugar;
 use App\Models\PronosticoModel;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 
 class CiudadModelControler extends Controller
@@ -56,8 +58,6 @@ class CiudadModelControler extends Controller
         $pronosticoModel->nubes = $data['clouds']['all'];
         $pronosticoModel->amanecer = $data['sys']['sunrise'];
         $pronosticoModel->atardecer = $data['sys']['sunset'];
-        $pronosticoModel->latitud = $data['coord']['lat'];
-        $pronosticoModel->longitud = $data['coord']['lon'];
         $pronosticoModel->probabilidad_lluvia = isset($data['rain']['1h']) ? $data['rain']['1h'] : 0;
         $pronosticoModel->icono = "http://openweathermap.org/img/wn/{$data['weather'][0]['icon']}@4x.png";
         $pronosticoModel->save();
@@ -77,15 +77,12 @@ class CiudadModelControler extends Controller
     if (!$ciudad) {
         return response()->json(['message' => 'Ciudad no encontrada con el nombre: ' . $ciudad_nombre], 404);
     }
-
-
         $pronosticos = PronosticoModel::join('ciudades as C', 'pronosticos.ciudad_id', '=', 'C.id')
         ->where('C.id', $ciudad->id)
         ->whereBetween('pronosticos.fecha_hora', [$fecha_inicio, $fecha_fin])
         ->orderBy('pronosticos.fecha_hora', 'ASC')
         ->get(['C.nombre', 'pronosticos.*']);
     
-      
         return response()->json($pronosticos);
     }
 }

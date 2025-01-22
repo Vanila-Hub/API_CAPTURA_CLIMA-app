@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class PronosticoModel extends Model
 {
-    //
     use HasFactory;
     protected $table = 'pronosticos';   // El nombre de la tabla no será "articles" sino "articulos"
     protected $primaryKey = 'id'; // La clave primaria no será "id" sino "id_art"
@@ -26,14 +25,12 @@ class PronosticoModel extends Model
         'nubes', 
         'amanecer', 
         'atardecer', 
-        'latitud', 
-        'longitud', 
         'probabilidad_lluvia', 
         'icono'
-    ); // Campos de la tabla en los que se permite la ASIGNACIÓN MASIVA (más adelante veremos qué es esto)
+    ); // Campos de la tabla en los que se permite la ASIGNACIÓN MASIVA
 
     public function ciudad()
     {
-        return $this->belongsTo(CiudadModel::class, 'ciudad_id'); // 'ciudad_id' es la clave foránea en la tabla 'lugares'
+        return $this->belongsTo(CiudadModel::class, 'ciudad_id'); // 'ciudad_id' es la clave foránea en la tabla 'ciudades'
     }
 }

@@ -16,5 +16,5 @@ Route::get('/', function () {
 
 */
 
-Route::get('/api/ciudades', [CiudadModelControler::class, 'index']);
-Route::get('/api/clima/{ciudad_nombre}/{fecha_inicio}/{fecha_fin}', [CiudadModelControler::class, 'show']); 
+// Route::get('/api/ciudades', [CiudadModelControler::class, 'index']);
+// Route::get('/api/clima/{ciudad_nombre}/{fecha_inicio}/{fecha_fin}', [CiudadModelControler::class, 'show']); 

@@ -9,11 +9,11 @@ use Illuminate\Database\Seeder;
 
 
 
-class PronosticoSeeder extends Seeder
+class PronosticosSeeder extends Seeder
 {
     public function run(): void
     {
-        // IDs de las ciudades (1 a 5)
+        // IDs de las ciudades (1 a 4)
         $ciudades = CiudadModel::pluck('id');
 
         foreach ($ciudades as $ciudadId) {

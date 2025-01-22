@@ -8,10 +8,10 @@ class CiudadModel extends Model
 {
     protected $table = 'ciudades';   // El nombre de la tabla no será "articles" sino "articulos"
     protected $primaryKey = 'id'; // La clave primaria no será "id" sino "id_art"
-    protected $fillable = array('nombre', 'latitud','longitud'); // Campos de la tabla en los que se permite la ASIGNACIÓN MASIVA (más adelante veremos qué es esto)
+    protected $fillable = array('nombre', 'latitud','longitud'); // Campos de la tabla en los que se permite la ASIGNACIÓN MASIVA
 
        /**
-     * Definir la relación de uno a muchos con el modelo Lugar.
+     * Definir la relación de uno a muchos con el modelo pronostico.
      */
     public function lugares()
     {
