@@ -14,10 +14,12 @@ class PronosticoModelFactory extends Factory
     protected $model = PronosticoModel::class;
 
     private static $timeIncrement = 0;
+    private static $dailyTemperatures = []; // Array para almacenar temperaturas por día
 
     public static function resetTimeIncrement()
     {
         self::$timeIncrement = 0;
+        self::$dailyTemperatures = [];
     }
 
     public function definition(): array
@@ -28,9 +30,27 @@ class PronosticoModelFactory extends Factory
 
         self::$timeIncrement += 15; // Incremento de 15 minutos
 
-        // Ajuste de temperatura según mes
-        $month = $date->month;
-        $temperatura = $this->getTemperatureForMonth($month) + $this->faker->randomFloat(1, -2, 2);
+        // Obtener las temperaturas máxima y mínima del día
+        $dayKey = $date->format('Y-m-d');
+        if (!isset(self::$dailyTemperatures[$dayKey])) {
+            // Generar temperaturas para este día
+            $month = $date->month;
+            $baseTemperature = $this->getTemperatureForMonth($month);
+
+            $tempMax = $baseTemperature + $this->faker->randomFloat(1, 1, 3);
+            $tempMin = $baseTemperature - $this->faker->randomFloat(1, 1, 3);
+
+            self::$dailyTemperatures[$dayKey] = [
+                'temp_max' => $tempMax,
+                'temp_min' => $tempMin,
+            ];
+        }
+
+        $temperatures = self::$dailyTemperatures[$dayKey];
+
+        // Ajustar temperatura actual basada en el promedio del día
+        $temperatura = ($temperatures['temp_max'] + $temperatures['temp_min']) / 2
+                       + $this->faker->randomFloat(1, -1, 1);
 
         // Descripciones posibles basadas en rangos de temperatura
         $descripciones = $this->getDescriptionsBasedOnTemperature($temperatura);
@@ -42,8 +62,8 @@ class PronosticoModelFactory extends Factory
             'fecha_hora' => $date,
             'fecha_unix' => $date->timestamp,
             'temperatura' => $temperatura,
-            'temp_min' => $temperatura - $this->faker->randomFloat(1, 1, 3),
-            'temp_max' => $temperatura + $this->faker->randomFloat(1, 1, 3),
+            'temp_min' => $temperatures['temp_min'], // Temperatura mínima fija del día
+            'temp_max' => $temperatures['temp_max'], // Temperatura máxima fija del día
             'sensacion_termica' => $temperatura + $this->faker->randomFloat(1, -1, 1),
             'humedad' => $this->faker->numberBetween(60, 80),
             'presion' => 1013 + $this->faker->randomFloat(1, -5, 5),
@@ -66,7 +86,7 @@ class PronosticoModelFactory extends Factory
             3 => 9,  // Marzo
             4 => 12, // Abril
             5 => 15, // Mayo
-            6 => 18, // Junio
+            6 => 22, // Junio
         ];
 
         return $temperatureRanges[$month] ?? 15;  // Valor por defecto si no se encuentra el mes
