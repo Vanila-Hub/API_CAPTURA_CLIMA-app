@@ -38,7 +38,7 @@ class PronosticoModelFactory extends Factory
         $icono = $descripciones[$descripcion];
 
         return [
-            'ciudad_id' => $this->faker->numberBetween(1, 4),
+            'ciudad_id' => $this->faker->numberBetween(1, 5),
             'fecha_hora' => $date,
             'fecha_unix' => $date->timestamp,
             'temperatura' => $temperatura,

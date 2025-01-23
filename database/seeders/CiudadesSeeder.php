@@ -35,6 +35,11 @@ class CiudadesSeeder extends Seeder
             "nombre" => "Pamplona",
             "latitud" => "42.816900",
             "longitud" => "-1.643200",
+            ],
+            [
+            "nombre" => "Irun",
+            "latitud" => "43.339000",
+            "longitud" => "-1.789400",
             ]
         ];
 
