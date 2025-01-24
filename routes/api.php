@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Authentication\AuthControler;
 use App\Http\Controllers\CiudadModelControler;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 
@@ -18,4 +19,8 @@ Route::middleware('auth:api')->group(function () {
 });
 
 // Route::get('/ciudades', [CiudadModelControler::class, 'index']);
+Route::get('/ciudades_store', function () {
+    Artisan::call('ciudades:store');
+    return response('Cron ejecutado pronosticos guardados', 200);
+});
 
