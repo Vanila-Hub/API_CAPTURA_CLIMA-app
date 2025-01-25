@@ -57,7 +57,8 @@ class PronosticoModelControler extends Controller
             return response()->json(['message' => 'Ciudad no encontrada con el nombre: ' . $ciudad_nombre], 404);
         }
 
-        $API_key = "a5777721902795125a7dc0474c5036a8";
+        // Leer la clave API desde el archivo .env
+        $API_key = env('OPENWEATHER_API_KEY');
         $language = "es";
         $units = "metric";
         $cnt = 32; // Cambiado a 32 para obtener datos de aquí a 4 días
