@@ -60,7 +60,7 @@ services:
             PMA_HOST: mysql
             MYSQL_ROOT_PASSWORD: 'password'
         ports:
-            - '9090:80'  # Cambié el puerto de 8080 a 9090
+            - '8081:81'
         networks:
             - sail
 
