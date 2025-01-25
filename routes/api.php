@@ -20,8 +20,17 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/clima/{ciudad_nombre}/{fecha_inicio}/{fecha_fin}', [PronosticoModelControler::class, 'show']); 
 });
 
-// Route::get('/ciudades', [CiudadModelControler::class, 'index']);
+Route::get('/pronosticos_weather_store', function () {
+    Artisan::call('pronosticosweather:store');
+    return response('Cron ejecutado pronosticos actuales guardados', 200);
+});
+
 Route::get('/ciudades_store', function () {
-    Artisan::call('ciudades:store');
-    return response('Cron ejecutado pronosticos guardados', 200);
+    Artisan::call('db:seed', ['--class' => 'CiudadesSeeder']);
+    return response('Cron ejecutado: ciudades guardadas', 200);
+});
+
+Route::get('/historicos_store', function () {
+    Artisan::call('db:seed', ['--class' => 'PronosticosSeeder']);
+    return response('Cron ejecutado datos historicos guardados', 200);
 });

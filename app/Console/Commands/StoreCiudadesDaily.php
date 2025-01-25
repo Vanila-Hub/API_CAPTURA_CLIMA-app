@@ -8,8 +8,8 @@ use App\Http\Controllers\CiudadModelControler;
 
 class StoreCiudadesDaily extends Command
 {
-    protected $signature = 'ciudades:store';
-    protected $description = 'Guarda datos de las ciudades diariamente';
+    protected $signature = 'pronosticosweather:store';
+    protected $description = 'Guarda datos de los pronosticos de las ciudades cada 10 minutos';
 
     public function __construct()
     {
@@ -24,13 +24,13 @@ class StoreCiudadesDaily extends Command
             $controller->store();
 
             // Mensaje de éxito en consola
-            $this->info('Datos de las ciudades guardados exitosamente.');
+            $this->info('Pronosticos de las ciudades guardados exitosamente.');
 
             // Registrar el evento en el archivo de log
-            Log::info('Comando ciudades:store ejecutado correctamente. Datos guardados exitosamente.');
+            Log::info('Comando pronosticosweather:store ejecutado correctamente. Datos capturados y  guardados exitosamente.');
         } catch (\Exception $e) {
             // Manejo de errores y registro en logs
-            Log::error('Error al ejecutar el comando ciudades:store: ' . $e->getMessage());
+            Log::error('Error al ejecutar el comando pronosticosweather:store: ' . $e->getMessage());
             $this->error('Error al guardar los datos: ' . $e->getMessage());
         }
     }

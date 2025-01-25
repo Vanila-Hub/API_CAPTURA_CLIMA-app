@@ -20,11 +20,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // Tarea personalizada
-        $schedule->command('ciudades:store')->everyMinute();
-    
+        // Tarea personalizada para guardar pronostico de la api cada 10 minutos
+        $schedule->command('pronosticosweather:store')->everyTenMinutes();
     }
-    
     
 
     /**
