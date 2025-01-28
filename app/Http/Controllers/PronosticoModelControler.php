@@ -81,8 +81,6 @@ class PronosticoModelControler extends Controller
             'atardecer' => $data['city']['sunset'],
             'viento' => round($element['wind']['speed']),
             'probabilidadDeLluvia' => round(isset($element['rain']['3h']) ? $element['rain']['3h'] : 0),
-            'latitud' => $data['city']['coord']['lat'],
-            'longitud' => $data['city']['coord']['lon'],
             'descripcion' => $element['weather'][0]['description'],
             'sensacionTermica' => round($element['main']['feels_like']),
             'icono' => "http://openweathermap.org/img/wn/{$element['weather'][0]['icon']}@2x.png",
