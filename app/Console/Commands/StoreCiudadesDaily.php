@@ -27,7 +27,7 @@ class StoreCiudadesDaily extends Command
             $this->info('Datos actuales del clima de las ciudades guardados exitosamente.');
 
             // Registrar el evento en el archivo de log
-            Log::info('Comando weatherdata:save ejecutado correctamente. Datos capturados y  guardados en las Base de Datos.');
+            Log::info('Comando weatherdata:save ejecutado correctamente. Datos capturados y  guardados en la Base de Datos.');
         } catch (\Exception $e) {
             // Manejo de errores y registro en logs
             Log::error('Error al ejecutar el comando weatherdata:save ' . $e->getMessage());
