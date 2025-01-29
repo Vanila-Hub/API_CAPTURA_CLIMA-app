@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class PronosticoModel extends Model
 {
     use HasFactory;
-    protected $table = 'pronosticos';   // El nombre de la tabla no será "articles" sino "articulos"
-    protected $primaryKey = 'id'; // La clave primaria no será "id" sino "id_art"
+    protected $table = 'pronosticos';  
+    protected $primaryKey = 'id'; 
     protected $fillable = array(
         'ciudad_id', 
         'fecha_hora', 

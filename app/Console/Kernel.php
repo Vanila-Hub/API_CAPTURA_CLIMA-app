@@ -21,7 +21,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // Tarea personalizada para guardar pronostico de la api cada 10 minutos
-        $schedule->command('pronosticosweather:store')->everyTenMinutes();
+        $schedule->command('weatherdata:save')->everyTenMinutes();
     }
     
 

@@ -13,7 +13,7 @@ class PronosticosSeeder extends Seeder
 {
     public function run(): void
     {
-        // IDs de las ciudades (1 a 4)
+        // IDs de las ciudades (1 a x)
         $ciudades = CiudadModel::pluck('id');
 
         foreach ($ciudades as $ciudadId) {

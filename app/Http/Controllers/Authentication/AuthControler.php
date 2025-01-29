@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Authentication;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use App\Models\User;
@@ -25,7 +24,7 @@ class AuthControler extends Controller
         // Verificar que el usuario exista y que la contraseña coincida
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
-                'message' => 'Unauthorized password not macthin my Hash'
+                'message' => 'Unauthorized password not matching my Hash'
             ], 401);
         }
 
@@ -39,9 +38,8 @@ class AuthControler extends Controller
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse($tokenResult->token->expires_at)->toDateTimeString()
-        ]);
+        ], 200);
     }
-
 
     public function signUp(Request $request)
     {
@@ -60,7 +58,7 @@ class AuthControler extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Successfully created user! Please login to get the token.'
+            'message' => 'Successfully created user, now login to get the token.'
         ], 201);
     }
 
@@ -70,7 +68,7 @@ class AuthControler extends Controller
 
         return response()->json([
             'message' => 'Successfully logged out'
-        ]);
+        ], 200);
     }
 
     /**
@@ -80,6 +78,6 @@ class AuthControler extends Controller
      */
     public function user(Request $request)
     {
-        return response()->json($request->user());
+        return response()->json($request->user(), 200);
     }
 }

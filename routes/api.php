@@ -18,4 +18,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/ciudades', [CiudadModelControler::class,'index']);
     Route::get('/pronostico/{ciudad_nombre}', [PronosticoModelControler::class, 'obtenerPronosticoPorciudad']);
     Route::get('/clima/{ciudad_nombre}/{fecha_inicio}/{fecha_fin}', [PronosticoModelControler::class, 'show']); 
+    Route::post('/ciudades', [CiudadModelControler::class, 'store']);
+    Route::get('/ciudades/{id}', [CiudadModelControler::class, 'show']);
+    Route::put('/ciudades/{id}', [CiudadModelControler::class, 'update']);
+    Route::delete('/ciudades/{id}', [CiudadModelControler::class, 'destroy']);
 });

@@ -40,13 +40,23 @@ class PronosticoModelControler extends Controller
         if (!$ciudad) {
             return response()->json(['message' => 'Ciudad no encontrada con el nombre: ' . $ciudad_nombre], 404);
         }
+
+        // Verificar si las fechas son válidas
+        if (!$fecha_inicio || !$fecha_fin) {
+            return response()->json(['message' => 'Fechas no válidas'], 400);
+        }
+
         $pronosticos = PronosticoModel::join('ciudades as C', 'pronosticos.ciudad_id', '=', 'C.id')
             ->where('C.id', $ciudad->id)
             ->whereBetween('pronosticos.fecha_hora', [$fecha_inicio, $fecha_fin])
             ->orderBy('pronosticos.fecha_hora', 'ASC')
             ->get(['C.nombre', 'pronosticos.*']);
 
-        return response()->json($pronosticos);
+        if ($pronosticos->isEmpty()) {
+            return response()->json(['message' => 'No se encontraron pronósticos para las fechas proporcionadas'], 404);
+        }
+
+        return response()->json($pronosticos, 200);
     }
 
     public function obtenerPronosticoPorciudad($ciudad_nombre)
@@ -61,7 +71,7 @@ class PronosticoModelControler extends Controller
         $API_key = env('OPENWEATHER_API_KEY');
         $language = "es";
         $units = "metric";
-        $cnt = 32; // Cambiado a 32 para obtener datos de aquí a 4 días
+        $cnt = 32; // para obtener datos de aquí a 4 días
 
         $api = "https://api.openweathermap.org/data/2.5/forecast?lat={$ciudad->latitud}&lon={$ciudad->longitud}&lang={$language}&units={$units}&appid={$API_key}&cnt={$cnt}";
         $response = Http::get($api);
