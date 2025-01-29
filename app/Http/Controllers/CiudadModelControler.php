@@ -17,18 +17,16 @@ class CiudadModelControler extends Controller
     public function store()
     {
         // Obtener todas las ciudades desde la base de datos
-        $lugares = CiudadModel::all();
+        $ciudades = CiudadModel::all();
     
-        foreach ($lugares as $lugar) {
-            // Obtener los datos de la ciudad (ya está en la base de datos)
-            $ciudad = $lugar; // Ya tienes la ciudad, no necesitas volver a obtenerla.
-    
+        foreach ($ciudades as $ciudad) {
+            
             // Obtener el pronóstico del clima actual usando la API de OpenWeather
             $api_key = "a5777721902795125a7dc0474c5036a8";
             $language = "es";
             $units = "metric";
             
-            $data = Http::get("https://api.openweathermap.org/data/2.5/weather?lat={$lugar->latitud}&lon={$lugar->longitud}&lang={$language}&units={$units}&appid={$api_key}")->json();
+            $data = Http::get("https://api.openweathermap.org/data/2.5/weather?lat={$ciudad->latitud}&lon={$ciudad->longitud}&lang={$language}&units={$units}&appid={$api_key}")->json();
     
             // Verificar si la respuesta contiene datos
             if (isset($data['weather'])) {
@@ -47,6 +45,34 @@ class CiudadModelControler extends Controller
     {
         $ciudades = CiudadModel::all();
         return response()->json($ciudades);
+    }
+    public function show($id)
+    {
+        $ciudad = CiudadModel::find($id);
+        if (is_null($ciudad)) {
+            return response()->json(['message' => 'Ciudad no encontrada'], 404);
+        }
+        return response()->json($ciudad);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $ciudad = CiudadModel::find($id);
+        if (is_null($ciudad)) {
+            return response()->json(['message' => 'Ciudad no encontrada'], 404);
+        }
+        $ciudad->update($request->all());
+        return response()->json(['message' => 'Ciudad actualizada correctamente']);
+    }
+
+    public function destroy($id)
+    {
+        $ciudad = CiudadModel::find($id);
+        if (is_null($ciudad)) {
+            return response()->json(['message' => 'Ciudad no encontrada'], 404);
+        }
+        $ciudad->delete();
+        return response()->json(['message' => 'Ciudad eliminada correctamente']);
     }
 
 }
