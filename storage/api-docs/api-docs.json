@@ -408,13 +408,13 @@
                 }
             }
         },
-        "/pronostico/{ciudad_nombre}/{fecha_inicio}/{fecha_fin}": {
+        "/clima/{ciudad_nombre}/{fecha_inicio}/{fecha_fin}": {
             "get": {
                 "tags": [
                     "Pronóstico"
                 ],
-                "summary": "Get forecast by city name and date range",
-                "operationId": "ed153da394f2e60d184c43cc9111e73b",
+                "summary": "Get forecast by city name and date range YYY-MM-DD HH:MM:SS",
+                "operationId": "17b41fc53da7de07a415b6c460e5c6ca",
                 "parameters": [
                     {
                         "name": "ciudad_nombre",
@@ -458,13 +458,13 @@
                 ]
             }
         },
-        "/pronostico/ciudad/{ciudad_nombre}": {
+        "/pronostico/{ciudad_nombre}": {
             "get": {
                 "tags": [
                     "Pronóstico"
                 ],
-                "summary": "Get forecast by city name",
-                "operationId": "c0bceea0cd5eea1b407a6f65125d488f",
+                "summary": "Get forecast 4 days in the future by city name",
+                "operationId": "86c6190f9c66cb43151e22843b46c0ed",
                 "parameters": [
                     {
                         "name": "ciudad_nombre",

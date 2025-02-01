@@ -13,7 +13,7 @@ class PronosticoModelControler extends Controller
      * @OA\Post(
      *     path="/pronostico/guardar",
      *     tags={"Pronóstico"},
-     *     summary="Save weather forecast",
+     *     summary="Save weather forecast into the database",
      *     @OA\Parameter(
      *         name="ciudad_id",
      *         in="query",
@@ -48,9 +48,9 @@ class PronosticoModelControler extends Controller
 
     /**
      * @OA\Get(
-     *     path="/pronostico/{ciudad_nombre}/{fecha_inicio}/{fecha_fin}",
+     *     path="/clima/{ciudad_nombre}/{fecha_inicio}/{fecha_fin}",
      *     tags={"Pronóstico"},
-     *     summary="Get forecast by city name and date range",
+     *     summary="Get forecast by city name and date range YYY-MM-DD HH:MM:SS",
      *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="ciudad_nombre",
@@ -92,9 +92,9 @@ class PronosticoModelControler extends Controller
 
     /**
      * @OA\Get(
-     *     path="/pronostico/ciudad/{ciudad_nombre}",
+     *     path="/pronostico/{ciudad_nombre}",
      *     tags={"Pronóstico"},
-     *     summary="Get forecast by city name",
+     *     summary="Get forecast 4 days in the future by city name",
      *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="ciudad_nombre",

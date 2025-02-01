@@ -63,7 +63,7 @@ class CiudadModelControler extends Controller
             }
         }
     
-        return response()->json(['message' => 'Datos del clima almacenados correctamente.'], 200);
+        return response()->json(['message' => 'Datos de pronostico almacenados correctamente en la base de datos'], 200);
     }
 
     /**
