@@ -251,7 +251,7 @@
                 "tags": [
                     "Ciudades"
                 ],
-                "summary": "Generate forecast for all cities",
+                "summary": "Generate Weather data retrieve from open weather api for all cities and store them in the database",
                 "operationId": "1ff0f4f847bd12f71ef637f38c4a15c0",
                 "responses": {
                     "200": {
@@ -389,7 +389,7 @@
                 "tags": [
                     "Pronóstico"
                 ],
-                "summary": "Save weather forecast",
+                "summary": "Save weather forecast into the database",
                 "operationId": "dfe542ca8415e3356d3161fb8b61e72e",
                 "parameters": [
                     {
