@@ -8,44 +8,96 @@ use Illuminate\Support\Facades\Http;
 
 class CiudadModelControler extends Controller
 {
-
+    /**
+     * @OA\Post(
+     *     path="/ciudades",
+     *     tags={"Ciudades"},
+     *     summary="Create new city",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"nombre","latitud","longitud"},
+     *             @OA\Property(property="nombre", type="string"),
+     *             @OA\Property(property="latitud", type="number", format="float"),
+     *             @OA\Property(property="longitud", type="number", format="float")
+     *         )
+     *     ),
+     *     @OA\Response(response=201, description="City created successfully"),
+     *     @OA\Response(response=422, description="Validation error")
+     * )
+     */
     public function store(Request $request)
     {
         $ciudad = CiudadModel::create($request->all());
         return response()->json(['message' => 'Ciudad creada correctamente', 'ciudad' => $ciudad], 201);
     }
+
+    /**
+     * @OA\Get(
+     *     path="/ciudades/forecast",
+     *     tags={"Ciudades"},
+     *     summary="Generate forecast for all cities",
+     *     @OA\Response(response=200, description="Weather data stored successfully"),
+     *     @OA\Response(response=500, description="Error generating forecast")
+     * )
+     */
     public function generate_cities_forecast()
     {
-                // Obtener todas las ciudades desde la base de datos
-                $ciudades = CiudadModel::all();
+        // Obtener todas las ciudades desde la base de datos
+        $ciudades = CiudadModel::all();
+
+        foreach ($ciudades as $ciudad) {
+            
+            // Obtener el pronóstico del clima actual usando la API de OpenWeather
+            $api_key = env('OPENWEATHER_API_KEY');
+            $language = "es";
+            $units = "metric";
+            
+            $data = Http::get("https://api.openweathermap.org/data/2.5/weather?lat={$ciudad->latitud}&lon={$ciudad->longitud}&lang={$language}&units={$units}&appid={$api_key}")->json();
     
-                foreach ($ciudades as $ciudad) {
-                    
-                    // Obtener el pronóstico del clima actual usando la API de OpenWeather
-                    $api_key = env('OPENWEATHER_API_KEY');
-                    $language = "es";
-                    $units = "metric";
-                    
-                    $data = Http::get("https://api.openweathermap.org/data/2.5/weather?lat={$ciudad->latitud}&lon={$ciudad->longitud}&lang={$language}&units={$units}&appid={$api_key}")->json();
-            
-                    // Verificar si la respuesta contiene datos
-                    if (isset($data['weather'])) {
-                        $pronosticoModel = new PronosticoModelControler();
-                        // Llamar a la función para almacenar el pronóstico en la base de datos
-                        $pronosticoModel->guardarPronosticoActualApi($ciudad->id, $data);
-                    }
-                }
-            
-                return response()->json(['message' => 'Datos del clima almacenados correctamente.'], 200);
+            // Verificar si la respuesta contiene datos
+            if (isset($data['weather'])) {
+                $pronosticoModel = new PronosticoModelControler();
+                // Llamar a la función para almacenar el pronóstico en la base de datos
+                $pronosticoModel->guardarPronosticoActualApi($ciudad->id, $data);
+            }
+        }
+    
+        return response()->json(['message' => 'Datos del clima almacenados correctamente.'], 200);
     }
-    
 
-
+    /**
+     * @OA\Get(
+     *     path="/ciudades",
+     *     tags={"Ciudades"},
+     *     summary="Get all cities",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(response=200, description="List of all cities")
+     * )
+     */
     public function index()
     {
         $ciudades = CiudadModel::all();
         return response()->json($ciudades);
     }
+
+    /**
+     * @OA\Get(
+     *     path="/ciudades/{id}",
+     *     tags={"Ciudades"},
+     *     summary="Get city by ID",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="City ID",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="City details"),
+     *     @OA\Response(response=404, description="City not found")
+     * )
+     */
     public function show($id)
     {
         $ciudad = CiudadModel::find($id);
@@ -55,6 +107,31 @@ class CiudadModelControler extends Controller
         return response()->json($ciudad);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/ciudades/{id}",
+     *     tags={"Ciudades"},
+     *     summary="Update city",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"nombre","latitud","longitud"},
+     *             @OA\Property(property="nombre", type="string"),
+     *             @OA\Property(property="latitud", type="number", format="float"),
+     *             @OA\Property(property="longitud", type="number", format="float")
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="City updated successfully"),
+     *     @OA\Response(response=404, description="City not found")
+     * )
+     */
     public function update(Request $request, $id)
     {
         $ciudad = CiudadModel::find($id);
@@ -65,6 +142,22 @@ class CiudadModelControler extends Controller
         return response()->json(['message' => 'Ciudad actualizada correctamente']);
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/ciudades/{id}",
+     *     tags={"Ciudades"},
+     *     summary="Delete city",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="City deleted successfully"),
+     *     @OA\Response(response=404, description="City not found")
+     * )
+     */
     public function destroy($id)
     {
         $ciudad = CiudadModel::find($id);

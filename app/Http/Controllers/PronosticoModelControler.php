@@ -9,7 +9,20 @@ use Illuminate\Support\Facades\Http;
 
 class PronosticoModelControler extends Controller
 {
-    //
+    /**
+     * @OA\Post(
+     *     path="/pronostico/guardar",
+     *     tags={"Pronóstico"},
+     *     summary="Save weather forecast",
+     *     @OA\Parameter(
+     *         name="ciudad_id",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Forecast saved successfully")
+     * )
+     */
     public function guardarPronosticoActualApi($ciudad_id, $data)
     {
         // Almacenar el pronóstico actual en la base de datos
@@ -33,6 +46,34 @@ class PronosticoModelControler extends Controller
         $pronosticoModel->save();
     }
 
+    /**
+     * @OA\Get(
+     *     path="/pronostico/{ciudad_nombre}/{fecha_inicio}/{fecha_fin}",
+     *     tags={"Pronóstico"},
+     *     summary="Get forecast by city name and date range",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="ciudad_nombre",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="fecha_inicio",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string", format="date")
+     *     ),
+     *     @OA\Parameter(
+     *         name="fecha_fin",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string", format="date")
+     *     ),
+     *     @OA\Response(response=200, description="Forecast data retrieved"),
+     *     @OA\Response(response=404, description="City not found")
+     * )
+     */
     public function show($ciudad_nombre, $fecha_inicio, $fecha_fin)
     {
         // Verificar si la ciudad existe
@@ -40,25 +81,32 @@ class PronosticoModelControler extends Controller
         if (!$ciudad) {
             return response()->json(['message' => 'Ciudad no encontrada con el nombre: ' . $ciudad_nombre], 404);
         }
-
-        // Verificar si las fechas son válidas
-        if (!$fecha_inicio || !$fecha_fin) {
-            return response()->json(['message' => 'Fechas no válidas'], 400);
-        }
-
         $pronosticos = PronosticoModel::join('ciudades as C', 'pronosticos.ciudad_id', '=', 'C.id')
             ->where('C.id', $ciudad->id)
             ->whereBetween('pronosticos.fecha_hora', [$fecha_inicio, $fecha_fin])
             ->orderBy('pronosticos.fecha_hora', 'ASC')
             ->get(['C.nombre', 'pronosticos.*']);
 
-        if ($pronosticos->isEmpty()) {
-            return response()->json(['message' => 'No se encontraron pronósticos para las fechas proporcionadas'], 404);
-        }
-
-        return response()->json($pronosticos, 200);
+        return response()->json($pronosticos);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/pronostico/ciudad/{ciudad_nombre}",
+     *     tags={"Pronóstico"},
+     *     summary="Get forecast by city name",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="ciudad_nombre",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(response=200, description="Forecast data retrieved"),
+     *     @OA\Response(response=404, description="City not found"),
+     *     @OA\Response(response=500, description="API Error")
+     * )
+     */
     public function obtenerPronosticoPorciudad($ciudad_nombre)
     {
         // Verificar si la ciudad existe
@@ -71,7 +119,7 @@ class PronosticoModelControler extends Controller
         $API_key = env('OPENWEATHER_API_KEY');
         $language = "es";
         $units = "metric";
-        $cnt = 32; // para obtener datos de aquí a 4 días
+        $cnt = 32; // Cambiado a 32 para obtener datos de aquí a 4 días
 
         $api = "https://api.openweathermap.org/data/2.5/forecast?lat={$ciudad->latitud}&lon={$ciudad->longitud}&lang={$language}&units={$units}&appid={$API_key}&cnt={$cnt}";
         $response = Http::get($api);
@@ -91,6 +139,8 @@ class PronosticoModelControler extends Controller
             'atardecer' => $data['city']['sunset'],
             'viento' => round($element['wind']['speed']),
             'probabilidadDeLluvia' => round(isset($element['rain']['3h']) ? $element['rain']['3h'] : 0),
+            'latitud' => $data['city']['coord']['lat'],
+            'longitud' => $data['city']['coord']['lon'],
             'descripcion' => $element['weather'][0]['description'],
             'sensacionTermica' => round($element['main']['feels_like']),
             'icono' => "http://openweathermap.org/img/wn/{$element['weather'][0]['icon']}@2x.png",
