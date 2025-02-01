@@ -36,7 +36,7 @@ class CiudadModelControler extends Controller
      * @OA\Get(
      *     path="/ciudades/forecast",
      *     tags={"Ciudades"},
-     *     summary="Generate forecast for all cities",
+     *     summary="Generate Weather data retrieve from open weather api for all cities and store them in the database",
      *     @OA\Response(response=200, description="Weather data stored successfully"),
      *     @OA\Response(response=500, description="Error generating forecast")
      * )
