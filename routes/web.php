@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\CiudadModelControler;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
