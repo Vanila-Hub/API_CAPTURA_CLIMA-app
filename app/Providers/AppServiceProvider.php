@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        //las claves para generar los acces tokens
         Passport::loadKeysFrom(__DIR__.'/../secrets/oauth');
     }
 }
