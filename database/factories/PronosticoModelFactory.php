@@ -1,3 +1,17 @@
+/**
+ * Factory para generar datos de prueba del modelo PronosticoModel
+ * 
+ * Esta clase genera datos meteorológicos simulados para pruebas, incluyendo:
+ * - Temperaturas realistas basadas en el mes (enero a junio)
+ * - Variaciones coherentes de temperatura durante el día
+ * - Descripciones del clima y sus íconos correspondientes
+ * - Datos atmosféricos como humedad, presión y viento
+ * 
+ * Los datos generados mantienen consistencia temporal y meteorológica,
+ * con incrementos de 15 minutos entre registros y temperaturas que 
+ * varían según patrones estacionales.
+ */
+
 <?php
 
 namespace Database\Factories;

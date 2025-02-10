@@ -1,3 +1,19 @@
+/**
+ * Clase CiudadesSeeder
+ * 
+ * Seeder de base de datos para poblar la tabla de ciudades con datos iniciales.
+ * Este seeder inserta registros de ciudades predefinidas en la base de datos
+ * con sus coordenadas geográficas (latitud y longitud).
+ * 
+ * Ciudades incluidas:
+ * - Bilbao
+ * - Vitoria-Gasteiz
+ * - San Sebastian
+ * - Pamplona
+ * - Irun
+ *
+ * @package Database\Seeders
+ */
 <?php
 
 namespace Database\Seeders;
