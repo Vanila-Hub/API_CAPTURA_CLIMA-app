@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Vanila Meteo Api",
-        "description": "Vanila Meteo Api",
+        "title": "Vanila weather API",
+        "description": "Vanila weather API",
         "version": "1.0.0"
     },
     "servers": [
