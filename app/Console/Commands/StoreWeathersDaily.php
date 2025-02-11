@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log; // Importa la clase Log
 use App\Http\Controllers\CiudadModelControler;
 
-class StoreCiudadesDaily extends Command
+class StoreWeathersDaily extends Command
 {
     protected $signature = 'weatherdata:save';
     protected $description = 'Guarda datos actuales del clima por cada ciudad cada 5 minutos';
