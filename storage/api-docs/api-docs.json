@@ -492,6 +492,62 @@
                     }
                 ]
             }
+        },
+        "/historico/{ciudad_nombre}": {
+            "get": {
+                "tags": [
+                    "Pronóstico"
+                ],
+                "summary": "Get historical forecast data by city name and date range",
+                "operationId": "63c50ad08c65472f01ce0885088fb0e0",
+                "parameters": [
+                    {
+                        "name": "ciudad_nombre",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "fecha_inicio",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "fecha_fin",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Historical forecast data retrieved"
+                    },
+                    "404": {
+                        "description": "City not found"
+                    },
+                    "400": {
+                        "description": "Bad Request - Invalid date range"
+                    },
+                    "500": {
+                        "description": "API Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {

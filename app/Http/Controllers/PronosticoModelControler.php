@@ -153,7 +153,7 @@ class PronosticoModelControler extends Controller
 
     /**
      * @OA\Get(
-     *     path="/pronostico/historico/{ciudad_nombre}",
+     *     path="/historico/{ciudad_nombre}",
      *     tags={"Pronóstico"},
      *     summary="Get historical forecast data by city name and date range",
      *     security={{"bearerAuth": {}}},
