@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\CiudadModel;
 use App\Models\PronosticoModel;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class PronosticoModelControler extends Controller
