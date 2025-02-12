@@ -83,7 +83,8 @@ class PronosticoModelControler extends Controller
         $pronosticos = PronosticoModel::join('ciudades as C', 'pronosticos.ciudad_id', '=', 'C.id')
             ->where('C.id', $ciudad->id)
             ->whereBetween('pronosticos.fecha_hora', [$fecha_inicio, $fecha_fin])
-            ->orderBy('pronosticos.fecha_hora', 'ASC')
+            ->orderBy('pronosticos.fecha_hora', 'DESC')
+            ->limit(1)
             ->get(['C.nombre', 'pronosticos.*']);
 
         return response()->json($pronosticos);
@@ -149,4 +150,61 @@ class PronosticoModelControler extends Controller
 
         return response()->json($pronosticoPorHoras);
     }
+
+    /**
+     * @OA\Get(
+     *     path="/pronostico/historico/{ciudad_nombre}",
+     *     tags={"Pronóstico"},
+     *     summary="Get historical forecast data by city name and date range",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="ciudad_nombre",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="fecha_inicio",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string", format="date")
+     *     ),
+     *     @OA\Parameter(
+     *         name="fecha_fin",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string", format="date")
+     *     ),
+     *     @OA\Response(response=200, description="Historical forecast data retrieved"),
+     *     @OA\Response(response=404, description="City not found"),
+     *     @OA\Response(response=400, description="Bad Request - Invalid date range"),
+     *     @OA\Response(response=500, description="API Error")
+     * )
+     */
+
+     public function historic_data($ciudad_nombre, $fecha_inicio, $fecha_fin)
+     {
+         // Verificar si la ciudad existe
+         $ciudad = CiudadModel::where('nombre', $ciudad_nombre)->first();
+         if (!$ciudad) {
+             return response()->json(['message' => 'Ciudad no encontrada con el nombre: ' . $ciudad_nombre], 404);
+         }
+ 
+         // Validate date range (important!)
+         $fecha_inicio_obj = \DateTime::createFromFormat('Y-m-d', $fecha_inicio);
+         $fecha_fin_obj = \DateTime::createFromFormat('Y-m-d', $fecha_fin);
+ 
+         if (!$fecha_inicio_obj || !$fecha_fin_obj || $fecha_inicio_obj > $fecha_fin_obj) {
+             return response()->json(['message' => 'Rango de fechas inválido.  Asegúrese que las fechas estén en formato YYYY-MM-DD y que la fecha de inicio sea menor o igual a la fecha final.'], 400);
+         }
+ 
+ 
+         $pronosticos = PronosticoModel::join('ciudades as C', 'pronosticos.ciudad_id', '=', 'C.id')
+             ->where('C.id', $ciudad->id)
+             ->whereBetween('pronosticos.fecha_hora', [$fecha_inicio, $fecha_fin])
+             ->orderBy('pronosticos.fecha_hora', 'ASC')
+             ->get(['C.nombre', 'pronosticos.*']);
+ 
+         return response()->json($pronosticos, 200);
+     }
 }
