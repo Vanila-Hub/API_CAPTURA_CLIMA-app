@@ -61,6 +61,9 @@ class CiudadModelControler extends Controller
                 // Llamar a la función para almacenar el pronóstico en la base de datos
                 $pronosticoModel->guardarPronosticoActualApi($ciudad->id, $data);
             }
+            else{
+                return response()->json(['message' => 'Error al generar el pronóstico'], 500);
+            }
         }
     
         return response()->json(['message' => 'Datos de pronostico almacenados correctamente en la base de datos'], 200);

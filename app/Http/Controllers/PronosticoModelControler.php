@@ -79,7 +79,7 @@ class PronosticoModelControler extends Controller
         // Verificar si la ciudad existe
         $ciudad = CiudadModel::where('nombre', $ciudad_nombre)->first();
         if (!$ciudad) {
-            return response()->json(['message' => 'Ciudad no encontrada con el nombre: ' . $ciudad_nombre], 404);
+            return response()->json(['message' => 'datos de la ciudad no encontrada: ' . $ciudad_nombre], 404);
         }
         $pronosticos = PronosticoModel::join('ciudades as C', 'pronosticos.ciudad_id', '=', 'C.id')
             ->where('C.id', $ciudad->id)
